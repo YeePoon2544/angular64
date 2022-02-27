@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="row">
+        <ng-container  *ngFor="let item of items">
+        <div class="card col-md-3" style="text-align: center;">
+            <img src="{{item.image}}" alt="">
+            <p style="word-wrap: break-word; white-space: nowrap; overflow: hidden;">{{item.title}}</p>
+            <p>price: ${{item.price}}</p>
+            <button class="btn btn-primary" (click)="addToCart(item)">
+                <i class="fas fa-cart-plus"></i>
+                หยิบใส่ตะกร้า
+            </button>
+        </div>
+    </ng-container>
+    </div>
+
+</div>

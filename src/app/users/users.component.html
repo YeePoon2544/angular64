@@ -317,25 +317,30 @@
             <tbody>
               <tr></tr>
 
-              <tr *ngFor="let items of items">
+              <tr *ngFor="let item of getPaginationItems(items)">
                 <td>
                   <img
-                    src="http://localhost/angular64API/images/{{items.picture}}"
-                    width="100px"
-                    height="110px"
-                  />
+                    src="http://localhost/angular64API/images/{{item.picture}}" style="max-width: 120px; max-height: 140px;" 
+                    *ngIf="item.picture != '' ">
+                    
+                  <img
+                    src="http://localhost/angular64API/images/noimage.png"
+                    style="max-width: 120px; max-height: 140px;" 
+                    *ngIf="item.picture == '' ">
+                 
                 </td>
-                <td>{{ items.name }}</td>
-                <td>{{ items.gender }}</td>
-                <td>{{ items.address }}</td>
-                <td>{{ items.telephone }}</td>
-                <td>{{ items.email }}</td>
+
+                <td>{{ item.name }}</td>
+                <td>{{ item.gender }}</td>
+                <td>{{ item.address }}</td>
+                <td>{{ item.telephone }}</td>
+                <td>{{ item.email }}</td>
                 <td>
                   <a
                     href="#editEmployeeModal"
                     class="edit"
                     data-bs-toggle="modal"
-                    (click)="editUser(items)"
+                    (click)="editUser(item)"
                     ><i
                       class="material-icons"
                       data-toggle="tooltip"
@@ -347,8 +352,7 @@
                     href="#deleteEmployeeModal"
                     class="delete"
                     data-bs-toggle="modal"
-                    (click)="deleteUser(items.userid)"
-                    ><i
+                    (click)="deleteUser(item.userid, item.picture)"><i
                       class="material-icons"
                       data-toggle="tooltip"
                       title="Delete"
@@ -361,18 +365,19 @@
           </table>
           <div class="clearfix">
             <div class="hint-text">
-              Showing <b>5</b> out of <b>25</b> entries
-            </div>
-            <ul class="pagination">
-              <li class="page-item disabled"><a href="#">Previous</a></li>
-              <li class="page-item"><a href="#" class="page-link">1</a></li>
-              <li class="page-item"><a href="#" class="page-link">2</a></li>
-              <li class="page-item active">
-                <a href="#" class="page-link">3</a>
+             แสดงผลจำนวน {{pageLimit}} รายการ จากทั้งหมด {{items.lenght}} รายการ </div>
+            <ul class="pagination" [ngClass]="{disabled: startPage == 1}">
+
+              <li class="page-item">
+                <a class= "page-item" (click)="gotoPrevious()">ก่อนหน้า</a>
               </li>
-              <li class="page-item"><a href="#" class="page-link">4</a></li>
-              <li class="page-item"><a href="#" class="page-link">5</a></li>
-              <li class="page-item"><a href="#" class="page-link">Next</a></li>
+
+              <li class="page-item" *ngFor="let page of pagination"
+              [ngClass]="{active: startPage == page}">
+                <a href="#" class="page-link" (click)="startPage == page">{{page}}</a></li>
+
+              <li class="page-item"[ngClass]="{disabled: startPage == pagination.length}">
+                <a class="page-link" (click)="gotoNext()">ถัดไป</a></li>
             </ul>
           </div>
         </div>
@@ -495,6 +500,14 @@
                     </option>
                   </select>
                 </div>
+                <div class="form-group">
+                  <label>รูปภาพเดิม</label>
+                  <img src="http://localhost/angular64API/images/{{model.picture}}"
+                  width="60px" height="70px" *ngIf="model.picture !='' ">
+                  <img src="http://localhost/angular64API/images/noimage.png"
+                  width="60px" height="70px" *ngIf="model.picture !='' ">
+                </div>
+
                 <!-- เพิ่มแท็กให้เลือกภาพ -->
                 <div class="form-group">
                   <label>เลือกรูปภาพ</label>
@@ -502,9 +515,10 @@
                     type="file"
                     class="form-control"
                     name="picture"
-                    (change)="onFlieSelect($event)"
-                  />
+                    (change)="onFlieSelect($event)">
+                  
                 </div>
+
                 <div class="form-group">
                   <input type="submit" value="บันทึก" class="btn btn-primary" />
                 </div>
@@ -631,13 +645,22 @@
                   </option>
                 </select>
               </div>
-               <div class="form-group">
-                 <label>รูปภาพเดิม</label>
-                 <img src="http://localhost/angular64API/images/{{model.picture}}" 
-                 width="60px" height="70px">
+              <div class="form-group">
+                <label>รูปภาพเดิม</label>
+                <img
+                  src="http://localhost/angular64API/images/{{ model.picture }}"
+                  width="60px"
+                  height="70px"
+                  *ngIf="model.picture != ''">
+                
+                <img
+                  src="http://localhost/angular64API/images/noimage.png"
+                  width="60px"
+                  height="70px"
+                  *ngIf="model.picture == ''">
+              
+              </div>
 
-               </div>
-               
               <!-- เพิ่มแท็กให้เลือกภาพ -->
               <div class="form-group">
                 <label>เลือกรูปภาพ</label>

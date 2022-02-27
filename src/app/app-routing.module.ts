@@ -14,7 +14,8 @@ const routes: Routes = [
   {
     path: '', component: SiteComponent,
      children: [
-  {path: '', component: SlideComponent},
+  {path: '', component: ProductComponent},
+  {path: 'products', component: ProductComponent},
   {path: 'about', component: AboutComponent},
   {path: 'proflie', component: ProflieComponent},
   {path: 'slide', component: SlideComponent}

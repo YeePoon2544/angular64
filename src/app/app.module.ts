@@ -20,6 +20,7 @@ import { StatusComponent } from './status/status.component';
 import { DashboardNavbarComponent } from './admin/dashboard-navbar/dashboard-navbar.component';
 import { DashboardSidebarComponent } from './admin/dashboard-sidebar/dashboard-sidebar.component';
 import { DashboardFooterComponent } from './admin/dashboard-footer/dashboard-footer.component';
+import { ProductsComponent } from './site/products/products.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { DashboardFooterComponent } from './admin/dashboard-footer/dashboard-foo
     StatusComponent,
     DashboardNavbarComponent,
     DashboardSidebarComponent,
-    DashboardFooterComponent
+    DashboardFooterComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule,

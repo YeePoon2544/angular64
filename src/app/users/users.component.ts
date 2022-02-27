@@ -26,9 +26,17 @@ export class UsersComponent implements OnInit {
     picture: ''
   };
   public userid: string = '';
+  public userpicture: string  = '';
   file!: File;
   hasFile: boolean | undefined; // ตัวแปรตรวจสอบว่ามีการเลือกไฟล์หรือไม้
   formData = new FormData(); // ส่งค่าไปกับฟอร์ม
+  pic: string;
+  // ตัวแปรในการแบ่งหน้า
+  pageLimit = 5; // กำหนดแสดงผลแค่ 5 รายกายต่อหน้า
+  startPage = 1; // กำหนดหน้าเริ่มต้น
+  pagination: number[] = [];
+
+
   constructor(
     private userService: UserService,
     private statusService: StatusService,
@@ -38,6 +46,8 @@ export class UsersComponent implements OnInit {
     //เรียกใช้งาน userservice เพื่อ get ข้อมูล
     this.userService.getUser().subscribe((result) => {
       this.items = result;
+      // หาจำนวนหน้า
+      this.findPagination
       console.log(this.items);
     });
     // เรียกใช้งาน statusService
@@ -45,6 +55,17 @@ export class UsersComponent implements OnInit {
       this.statuses = result;
     });
   }
+  findPagination() {
+    this.pagination =[];
+    const pageLength = Math.ceil (this.items.lenght / this.pageLimit);
+    for (let i = 1 ; i <= pageLength; i++) {
+    this.pagination.push(i);
+    }
+  }
+
+
+
+
   addUser(): void {
     $('#addEmployeeModal').modal('hide');
     console.log(this.model);
@@ -63,15 +84,16 @@ export class UsersComponent implements OnInit {
       this.ngOnInit();
     });
   }
-  deleteUser(id: string): void {
+  deleteUser(id: string, picture: string): void {
     this.userid = id;
-    console.log(id);
+    this.userpicture = picture;
+    // console.log(id);
   }
   confirmDelete(): void {
     $('#deleteEmployeeModal').modal('hide');
     console.log(this.userid);
     // เรียกใช้ userservice เพื่อลบข้อมูล
-    this.userService.deleteUser(this.userid).subscribe((result) => {
+    this.userService.deleteUser(this.userid, this.userpicture).subscribe((result) => {
       console.log(result);
       this.ngOnInit();
     });
@@ -83,7 +105,8 @@ export class UsersComponent implements OnInit {
     $('#editEmployeeModal').modal('hide');
     // console.log(this.model);
     // เรียกใช้ userservice เพื่อแก้ไขข้อมูล
-    this.userService.putUser(this.model).subscribe((result) => {
+    this.userService.putUser(this.model)
+    .subscribe((result) => {
      // upload ไฟล์รูปภาพขึ้น server
      if (this.hasFile) { // ถ้ามี่ไฟล์รูปภาพ
       this.formData.append('picture', this.file);
@@ -93,9 +116,9 @@ export class UsersComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
       });
-     }
-      console.log(result);
+      // console.log(result);
       this.ngOnInit();
+    }
     });
   }
   onFlieSelect(event: any): void{
@@ -109,5 +132,23 @@ export class UsersComponent implements OnInit {
       this.model.picture = event.target.files[0].name;
     }
    
+  }
+  gotoPrevious(): void {
+   if (this.startPage === 1 ){
+     return;
+   }
+   this.startPage = this.startPage - 1;
+  }
+
+
+  gotoNext(): void {
+    if (this.startPage === this.pagination.length){
+      return;
+    }
+    this.startPage = this.startPage + 1;
+  }
+
+  getpaginationItems(pageItiem: any[]): any {
+    return pageItiem.slice((this.startPage - 1) * this.pageLimit, this.startPage * this.pageLimit);
   }
 }

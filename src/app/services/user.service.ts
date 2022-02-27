@@ -19,9 +19,9 @@ export class UserService {
     return this.httpCilent.post(this.url, model);
   }
   //สร้างเมธอดสำหรับลบข้อมูล
-  public deleteUser(userid: string): Observable<any> {
+  public deleteUser(userid: string , picture : string): Observable<any> {
     console.log(userid);
-return this.httpCilent.delete(this.url + '?userid=' + userid);
+return this.httpCilent.delete(this.url + '?userid=' + userid + '&picture=' + picture);
   }
   //สร้างเมธอดเพื่อเเก้ไขข้อมูล
   public putUser (model:any): Observable<any>{

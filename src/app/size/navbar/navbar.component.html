@@ -1,7 +1,7 @@
 <!-- Navbar -->
 <nav
   class="navbar navbar-expand-lg navbar-dark"
-  style="background-color: #87af19"
+  style="background-color: #97bd2d"
 >
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
@@ -23,12 +23,23 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">หน้าแรก</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           ประเภทสินค้า
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">เสื้อผ้า</a></li>
+            <li><a class="dropdown-item" href="#">เครื่องประดับ</a></li>
+            <li><a class="dropdown-item" href="#">อุปกรณ์อิเล็กทรอนิกส์</a></li>
+          </ul>
+        </li>
+        <!-- <li class="nav-item">
           <a class="nav-link" href="/about">เกี่ยวกับระบบงาน</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/proflie">ผู้จัดทำ</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a
             class="nav-link"
@@ -44,10 +55,15 @@
             href="#"
             data-bs-toggle="modal"
             data-bs-target="#loginModal"
-            >เข้าระบบ</a
-          >
+            >เข้าระบบ</a>
         </li>
       </ul>
+
+      <button class="btn" style="margin-right: 20px; color: aqua;">
+        <i class="fas fa-cart-plus" style="font-size: 30px;"></i>
+        <div style="font-size: 10px;" class="badge bg-danger">{{totalItem.length}}</div>
+      </button>
+
     </div>
   </div>
 </nav>
